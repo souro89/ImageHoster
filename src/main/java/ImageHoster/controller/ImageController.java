@@ -182,17 +182,7 @@ public class ImageController {
     }
 
 
-    @RequestMapping(value = "/image/{imageid}/{imagetitle}/comments", method = RequestMethod.POST)
-    public String addComments(@PathVariable("imageid") Integer imageId, @PathVariable("imagetitle") String imageTitle,@RequestParam("comment") String comment,HttpSession session, Comment newComment) {
-        User user =(User) session.getAttribute("loggeduser");
-        Image image = imageService.getImage(imageId);
-        newComment.setCreatedDate(new Date());
-        newComment.setImage(image);
-        newComment.setUser(user);
-        newComment.setText(comment);
-        commentService.uploadComment(newComment);
-        return "redirect:/images/"+imageId;
-    }
+
 
 
     //This method converts the image to Base64 format
