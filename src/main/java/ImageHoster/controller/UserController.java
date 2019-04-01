@@ -10,9 +10,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 @Controller
@@ -24,6 +27,8 @@ public class UserController {
     @Autowired
     private ImageService imageService;
 
+    Integer check=0;
+
     //This controller method is called when the request pattern is of type 'users/registration'
     //This method declares User type and UserProfile type object
     //Sets the user profile with UserProfile type object
@@ -34,35 +39,31 @@ public class UserController {
         UserProfile profile = new UserProfile();
         user.setProfile(profile);
         model.addAttribute("User", user);
+        if(check == 1) {
+            String passwordTypeError = "Password must contain atleast 1 alphabet, 1 number & 1 special character";
+            model.addAttribute("passwordTypeError",passwordTypeError);
+        }
         return "users/registration";
     }
 
-    //This controller method is called when the request pattern is of type 'users/registration/passworderror'
-    //This method declares User type and UserProfile type object
-    //Sets the user profile with UserProfile type object
-    //Adds User type object to a model and returns 'users/registration.html' file
-    @RequestMapping("users/registration/passworderror")
-    public String registrationError(Model model) {
-        User user = new User();
-        UserProfile profile = new UserProfile();
-        user.setProfile(profile);
-        String passwordTypeError = "Password must contain atleast 1 alphabet, 1 number & 1 special character";
-        model.addAttribute("User", user);
-        model.addAttribute("passwordTypeError",passwordTypeError);
-        return "users/registration";
-    }
+
 
     //This controller method is called when the request pattern is of type 'users/registration' and also the incoming request is of POST type
     //This method also checks the password strength of the entered password
     //This method calls the business logic and after the user record is persisted in the database, directs to login page
     @RequestMapping(value = "users/registration", method = RequestMethod.POST)
-    public String registerUser(User user) {
+    public String registerUser(User user,Model model) {
+
 
         if(userService.passwordStrengthCheck(user.getPassword())){
+            check=0;
             userService.registerUser(user);
             return "redirect:/users/login";
         }else{
-            return "redirect:/users/registration/passworderror";
+            check=1;
+            String passwordTypeError = "Password must contain atleast 1 alphabet, 1 number & 1 special character";
+            model.addAttribute("passwordTypeError",passwordTypeError);
+            return "redirect:/users/registration";
         }
 
 

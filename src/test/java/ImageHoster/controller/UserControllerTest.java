@@ -1,4 +1,4 @@
-/*
+
 package ImageHoster.controller;
 
 import ImageHoster.model.User;
@@ -14,6 +14,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -81,13 +84,16 @@ public class UserControllerTest {
         user.setUsername("Abhi");
         user.setPassword("password1@");
 
-
         this.mockMvc.perform(post("/users/registration")
                 .flashAttr("user", user)
         )
-                .andExpect(view().name("users/login"))
+                .andExpect(view().name("/users/login"))
+
                 .andExpect(content().string(containsString("Please Login:")));
+
+
     }
+
 
     //This test checks the controller logic for user signin when user requests for a signin form where he can enter the username and password and checks whether the logic returns the html file 'users/login.html'
     @Test
@@ -167,4 +173,4 @@ public class UserControllerTest {
                 .andExpect(content().string(containsString("Image Hoster")));
     }
 }
-*/
+

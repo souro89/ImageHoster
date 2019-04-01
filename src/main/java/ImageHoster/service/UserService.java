@@ -36,6 +36,7 @@ public class UserService {
     }
 
     public Boolean passwordStrengthCheck(String password){
+        System.out.println(password);
         Pattern pattern1 = Pattern.compile("[a-z]",Pattern.CASE_INSENSITIVE);
         Pattern pattern2 = Pattern.compile("[0-9]",Pattern.CASE_INSENSITIVE);
         Pattern pattern3 = Pattern.compile("[^a-z0-9]",Pattern.CASE_INSENSITIVE);
@@ -50,6 +51,10 @@ public class UserService {
         }
 
 
+    }
+
+    public String getPass(String password){
+        return password;
     }
 
 }
