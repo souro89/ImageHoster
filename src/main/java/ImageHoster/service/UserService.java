@@ -43,14 +43,11 @@ public class UserService {
         Matcher m1 = pattern1.matcher(password);
         Matcher m2 = pattern2.matcher(password);
         Matcher m3 = pattern3.matcher(password);
-
         if(m1.find() & m2.find() & m3.find()){
             return true;
         }else{
             return false;
         }
-
-
     }
 
     public String getPass(String password){

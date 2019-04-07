@@ -23,10 +23,8 @@ public class CommentRepository {
     //The transaction is committed if it is successful
     //The transaction is rolled back in case of unsuccessful transaction
     public Comment uploadComment(Comment newComment) {
-
         EntityManager em = emf.createEntityManager();
         EntityTransaction transaction = em.getTransaction();
-
         try {
             transaction.begin();
             em.persist(newComment);

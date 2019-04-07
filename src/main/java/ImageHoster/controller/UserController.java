@@ -53,8 +53,6 @@ public class UserController {
     //This method calls the business logic and after the user record is persisted in the database, directs to login page
     @RequestMapping(value = "users/registration", method = RequestMethod.POST)
     public String registerUser(User user,Model model) {
-
-
         if(userService.passwordStrengthCheck(user.getPassword())){
             check=0;
             userService.registerUser(user);
@@ -65,8 +63,6 @@ public class UserController {
             model.addAttribute("passwordTypeError",passwordTypeError);
             return "redirect:/users/registration";
         }
-
-
     }
 
     //This controller method is called when the request pattern is of type 'users/login'
@@ -98,7 +94,6 @@ public class UserController {
     @RequestMapping(value = "users/logout", method = RequestMethod.POST)
     public String logout(Model model, HttpSession session) {
         session.invalidate();
-
         List<Image> images = imageService.getAllImages();
         model.addAttribute("images", images);
         return "index";

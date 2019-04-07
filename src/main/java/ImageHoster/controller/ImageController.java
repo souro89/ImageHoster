@@ -97,12 +97,10 @@ public class ImageController {
     //set the tags attribute of the image as a list of all the tags returned by the findOrCreateTags() method
     @RequestMapping(value = "/images/upload", method = RequestMethod.POST)
     public String createImage(@RequestParam("file") MultipartFile file, @RequestParam("tags") String tags, Image newImage, HttpSession session) throws IOException {
-
         User user = (User) session.getAttribute("loggeduser");
         newImage.setUser(user);
         String uploadedImageData = convertUploadedFileToBase64(file);
         newImage.setImageFile(uploadedImageData);
-
         List<Tag> imageTags = findOrCreateTags(tags);
         newImage.setTags(imageTags);
         newImage.setDate(new Date());
@@ -160,7 +158,6 @@ public class ImageController {
         updatedImage.setUser(user);
         updatedImage.setTags(imageTags);
         updatedImage.setDate(new Date());
-
         imageService.updateImage(updatedImage);
         return "redirect:/images/" + updatedImage.getId();
     }
@@ -196,11 +193,9 @@ public class ImageController {
     private List<Tag> findOrCreateTags(String tagNames) {
         StringTokenizer st = new StringTokenizer(tagNames, ",");
         List<Tag> tags = new ArrayList<Tag>();
-
         while (st.hasMoreTokens()) {
             String tagName = st.nextToken().trim();
             Tag tag = tagService.getTagByName(tagName);
-
             if (tag == null) {
                 Tag newTag = new Tag(tagName);
                 tag = tagService.createTag(newTag);
@@ -216,14 +211,11 @@ public class ImageController {
     //Returns the string
     private String convertTagsToString(List<Tag> tags) {
         StringBuilder tagString = new StringBuilder();
-
         for (int i = 0; i <= tags.size() - 2; i++) {
             tagString.append(tags.get(i).getName()).append(",");
         }
-
         Tag lastTag = tags.get(tags.size() - 1);
         tagString.append(lastTag.getName());
-
         return tagString.toString();
     }
 }

@@ -13,7 +13,6 @@ public class TagRepository {
     public Tag createTag(Tag tag) {
         EntityManager em = emf.createEntityManager();
         EntityTransaction transaction = em.getTransaction();
-
         try {
             transaction.begin();
             em.persist(tag);
